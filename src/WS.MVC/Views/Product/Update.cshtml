@@ -1,0 +1,5 @@
+@model WS.MVC.Models.ProductModel
+
+@ViewData["Title"]
+
+@await Html.PartialAsync(partialViewName:"Partials/_FormProduct.cshtml", model: Model, viewData: new ViewDataDictionary(this.ViewData){ { "ActionName", "UpdateProduct" } })

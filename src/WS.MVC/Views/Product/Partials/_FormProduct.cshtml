@@ -1,0 +1,77 @@
+@model WS.MVC.Models.ProductModel
+
+<div class="container">    
+    @using (Html.BeginForm(actionName:ViewData["ActionName"]?.ToString(), controllerName: "Product", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card ">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-3">Alterar o produto </div>
+                    <div class="col-md-10">
+                        @if(@TempData["ErrorSQL"]?.ToString() != null)
+                        {
+                            <div class="alert-danger">@TempData["ErrorSQL"]</div>
+                        }
+                    </div>
+                </div>                
+            </div>
+            <div class="card-body ">
+                @Html.ValidationSummary(excludePropertyErrors: true, message:"", htmlAttributes: new {@class ="text-danger"})
+
+                @if(ViewData["ActionName"]?.ToString() == "UpdateProduct")
+                {
+                    @Html.HiddenFor(productModel => productModel.ProductId) 
+                }            
+
+                <div class="row my-md-2">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label(null, labelText: "Informe o nome do produto:", htmlAttributes: new { @class ="form-label" })                          
+                            @Html.EditorFor(produtcModel =>produtcModel.ProductName, new{ htmlAttributes = new { @class ="form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.Label(null, "Cadastre o valor:", htmlAttributes: new { @class ="form-label" })
+                                @Html.EditorFor(produtcModel =>produtcModel.ProductPrice, new{ htmlAttributes = new { @class ="form-control" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-md-2">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label(null, "Selecione uma categoria:", htmlAttributes: new { @class ="form-label" }) 
+                            @Html.DropDownListFor(productModel => productModel.CategoryId, 
+                            selectList: ViewBag.CategoryName as SelectList, 
+                            optionLabel: null,
+                            htmlAttributes: new { @class ="form-control" })                            
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label(null, "Informa a quantidade de produto:", htmlAttributes: new { @class ="form-label" })
+                            @Html.EditorFor(produtcModel =>produtcModel.ProductQuantity, new{ htmlAttributes = new {@class ="form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-md-2">
+                    <div class="col-md-2">
+                        <input type="submit" value="Send" name="Send" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-10">
+                        @Html.Label(null, "O Produto deve ficar ativo:", htmlAttributes: new { @class ="form-label" })
+                        @Html.CheckBoxFor(produtcModel => produtcModel.IsProductActive, new{ htmlAttributes = new {@class ="form-control" } })                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
